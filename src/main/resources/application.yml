@@ -26,3 +26,7 @@ logging:
     org:
       springframework:
         security: DEBUG
+
+api:
+  security:
+    secret: ${JWT_TOKEN}
