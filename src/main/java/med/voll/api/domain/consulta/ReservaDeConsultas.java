@@ -2,11 +2,14 @@ package med.voll.api.domain.consulta;
 
 import jakarta.validation.Valid;
 import med.voll.api.domain.ValidacionException;
+import med.voll.api.domain.consulta.validaciones.ValidadorDeConsultas;
 import med.voll.api.domain.medico.Medico;
 import med.voll.api.domain.medico.MedicoRepository;
 import med.voll.api.domain.paciente.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ReservaDeConsultas {
@@ -19,6 +22,9 @@ public class ReservaDeConsultas {
 
     @Autowired
     private MedicoRepository medicoRepository;
+
+    @Autowired
+    private List<ValidadorDeConsultas> validadores;
 
     public void reservar(DatosReservaConsulta datos){
 
@@ -60,4 +66,6 @@ public class ReservaDeConsultas {
         var consulta = consultaRepository.getReferenceById(datosCancelacionConsulta.idConsulta());
         consulta.cancelar(datosCancelacionConsulta.motivo());
     }
+
+
 }

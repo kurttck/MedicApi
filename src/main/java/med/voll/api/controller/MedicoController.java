@@ -93,4 +93,6 @@ public class MedicoController {
 
         return ResponseEntity.ok(datosMedico);
     }
+
+
 }

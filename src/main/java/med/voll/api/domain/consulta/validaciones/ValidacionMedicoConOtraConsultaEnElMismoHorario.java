@@ -4,8 +4,10 @@ import med.voll.api.domain.ValidacionException;
 import med.voll.api.domain.consulta.ConsultaRepository;
 import med.voll.api.domain.consulta.DatosReservaConsulta;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-public class ValidacionMedicoConOtraConsultaEnElMismoHorario {
+@Component
+public class ValidacionMedicoConOtraConsultaEnElMismoHorario implements ValidadorDeConsultas{
 
     @Autowired
     private ConsultaRepository consultaRepository;
