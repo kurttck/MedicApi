@@ -23,6 +23,8 @@ public interface MedicoRepository extends JpaRepository<Medico, UUID> {
             and m.id not in (
                 select c.medico.id from Consulta c
                 where c.fecha = :fecha
+                and
+                c.motivoCancelacion is null
             )
             order by rand()
             limit 1
@@ -30,5 +32,5 @@ public interface MedicoRepository extends JpaRepository<Medico, UUID> {
     Medico elegirMedicoAleatorioDisponibleEnLaFecha(Especialidad especialidad, @NotNull @Future LocalDateTime fecha);
 
 
-    boolean findActivoById(UUID uuid);
+    Boolean existsActivoById(UUID uuid);
 }

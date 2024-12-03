@@ -1,4 +1,4 @@
-package med.voll.api.domain.consulta.validaciones;
+package med.voll.api.domain.consulta.validaciones.reserva;
 
 import med.voll.api.domain.ValidacionException;
 import med.voll.api.domain.consulta.DatosReservaConsulta;
@@ -17,7 +17,8 @@ public class ValidacionMedicoActivo implements ValidadorDeConsultas{
             return;
         }
 
-        var medicoEstado = medicoRepository.findActivoById(datos.idMedico());
+
+        var medicoEstado = medicoRepository.existsActivoById(datos.idMedico());
 
         if(!medicoEstado){
             throw new ValidacionException("El medico esta inactivo");

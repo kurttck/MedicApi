@@ -15,19 +15,20 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of="id")
+@EqualsAndHashCode(of="id_consulta")
 public class Consulta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_consulta")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "medico_id")
+    @JoinColumn(name = "id_medico")
     private Medico medico;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "paciente_id")
+    @JoinColumn(name = "id_paciente")
     private Paciente paciente;
 
     @Column(name = "motivo_cancelamiento")
@@ -38,6 +39,7 @@ public class Consulta {
 
 
     public void cancelar(MotivoCancelacion motivo){
+        System.out.println("MOTIVO"+ motivo);
         this.motivoCancelacion = motivo;
     }
 }

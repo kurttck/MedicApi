@@ -2,7 +2,8 @@ package med.voll.api.domain.consulta;
 
 import jakarta.validation.Valid;
 import med.voll.api.domain.ValidacionException;
-import med.voll.api.domain.consulta.validaciones.ValidadorDeConsultas;
+import med.voll.api.domain.consulta.validaciones.cancelamiento.ValidacionCancelamientoDeConsulta;
+import med.voll.api.domain.consulta.validaciones.reserva.ValidadorDeConsultas;
 import med.voll.api.domain.medico.Medico;
 import med.voll.api.domain.medico.MedicoRepository;
 import med.voll.api.domain.paciente.PacienteRepository;
@@ -26,23 +27,44 @@ public class ReservaDeConsultas {
     @Autowired
     private List<ValidadorDeConsultas> validadores;
 
-    public void reservar(DatosReservaConsulta datos){
+    @Autowired
+    private List<ValidacionCancelamientoDeConsulta> validacionCancelamientoDeConsulta;
+
+    public DatosDetalleConsulta reservar(DatosReservaConsulta datos){
+
+
 
         if(!pacienteRepository.existsById(datos.idPaciente())){
             throw new ValidacionException("El paciente no existe");
         }
 
-        if(datos.idMedico() != null && !medicoRepository.existsById(datos.idMedico())){
+
+        if(datos.idMedico() != null && !medicoRepository.existsActivoById(datos.idMedico())){
             throw new ValidacionException("El medico no existe");
         }
 
+        System.out.println("PASO LA PRUEBA");
 
+        validadores.forEach(v -> v.validar(datos));
 
+        System.out.println("PASO LA PRUEBA 2");
 
         var medico = elegirMedico(datos);
+
+        if(medico == null){
+            throw new ValidacionException("No existe medico");
+        }
+
+        System.out.println("PASO LA PRUEBA 3");
+
         var paciente = pacienteRepository.getReferenceById(datos.idPaciente());
 
-        var consulta = new Consulta(null, medico, paciente,null, datos.fecha());
+         Consulta consulta = consultaRepository.save(new Consulta(null, medico, paciente,null, datos.fecha()));
+
+
+
+
+        return new DatosDetalleConsulta(consulta);
 
     }
 
@@ -63,6 +85,9 @@ public class ReservaDeConsultas {
         if(!consultaRepository.existsById(datosCancelacionConsulta.idConsulta())) {
             throw new ValidacionException("La consulta no existe");
         }
+
+        validacionCancelamientoDeConsulta.forEach(v -> v.validar(datosCancelacionConsulta));
+
         var consulta = consultaRepository.getReferenceById(datosCancelacionConsulta.idConsulta());
         consulta.cancelar(datosCancelacionConsulta.motivo());
     }

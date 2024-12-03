@@ -1,4 +1,4 @@
-package med.voll.api.domain.consulta.validaciones;
+package med.voll.api.domain.consulta.validaciones.reserva;
 
 import med.voll.api.domain.ValidacionException;
 import med.voll.api.domain.consulta.DatosReservaConsulta;
@@ -13,11 +13,15 @@ public class ValidacionPacienteActivo implements ValidadorDeConsultas{
     private PacienteRepository repository;
 
     public void validar(DatosReservaConsulta datos) {
-        var pacienteActivo = repository.findActivoById(datos.idPaciente());
+        var pacienteActivo = repository.existsActivoById(datos.idPaciente());
 
 
         if (!pacienteActivo) {
             throw new ValidacionException("El paciente esta inactivo");
         }
+
+        System.out.println("PASO PRUEBA");
     }
+
+
 }

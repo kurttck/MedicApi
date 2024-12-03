@@ -25,9 +25,9 @@ public class ConsultaController {
     public ResponseEntity reservar(@RequestBody @Valid DatosReservaConsulta datosReservaConsulta) {
         System.out.println(datosReservaConsulta);
 
-        reservaDeConsultas.reservar(datosReservaConsulta);
+        var consulta = reservaDeConsultas.reservar(datosReservaConsulta);
 
-        return ResponseEntity.ok( new DatosDetalleConsulta(datosReservaConsulta));
+        return ResponseEntity.ok(consulta);
     }
 
     @GetMapping
