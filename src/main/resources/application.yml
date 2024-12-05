@@ -1,12 +1,11 @@
 spring:
-
-  application:
-    name: api
-
   datasource:
     url: jdbc:mysql://localhost:3306/vollmed_api
     username: root
     password: root
+
+  application:
+    name: api
 
   jpa:
     show-sql: true
@@ -17,7 +16,10 @@ spring:
     properties:
       hibernate.format_sql: true
 
+# configuración para que este disponible en la red
 server:
+  address: 0.0.0.0
+  port: 8080
   error:
     include-stacktrace: never
 
@@ -29,7 +31,7 @@ logging:
 
 api:
   security:
-    secret: ${JWT_TOKEN}
+    secret: ${JWT_TOKEN:123456}
 
 springdoc:
   api-docs:
@@ -37,3 +39,4 @@ springdoc:
   swagger-ui:
     enabled: true
     path: /swagger-ui.html
+

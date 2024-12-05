@@ -16,6 +16,7 @@ import java.util.UUID;
 public interface MedicoRepository extends JpaRepository<Medico, UUID> {
     Page<Medico> findByActivoTrue(Pageable page);
 
+
     @Query("""
             select m from Medico m
             where m.activo = true
